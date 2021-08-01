@@ -1,0 +1,55 @@
+﻿@page "/"
+@using System.Collections.ObjectModel
+@using Microsoft.JSInterop;
+@inject IJSRuntime _jsRuntime
+
+<h1>Hello, world!</h1>
+
+
+<TelerikGrid Data = "@customers" >
+    <GridColumns>
+        <GridColumn Field = "@nameof(Customer.Name)" Title = "Name" ></GridColumn>
+        <GridColumn Field = "@nameof(Customer.City)" Title = "City" ></GridColumn>
+    </GridColumns>
+</TelerikGrid>
+<span>
+User pressed: @jsKey
+</span>
+
+
+@code{
+
+    [CascadingParameter(Name = "KEY")]
+    string jsKey { get; set; } 
+    public ObservableCollection<Customer> customers { get; set; }
+
+    
+
+    protected override void OnInitialized()
+    {
+        customers = new ObservableCollection<Customer>();
+        customers.Add(new Customer()
+                      {
+                          Name = "Tom", City = "Berlin"
+                      });
+        customers.Add(new Customer()
+                      {
+                          Name = "Tim", City = "New York"
+                      });
+        customers.Add(new Customer()
+                      {
+                          Name = "Jim", City = "Paris"
+                      });
+     
+
+        base.OnInitialized();
+    }
+   
+
+
+
+    public class Customer {
+        public string Name { get; set; }
+        public string City { get; set; }
+    }
+}

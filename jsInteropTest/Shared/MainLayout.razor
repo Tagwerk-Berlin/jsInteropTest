@@ -1,0 +1,55 @@
+﻿@using System.ComponentModel
+@using jsInteropTest.Data 
+@inherits LayoutComponentBase
+
+
+
+<TelerikRootComponent>
+    <div class="page">
+        <div class="sidebar">
+            <NavMenu />
+        </div>
+
+        <div class="main">
+            <div class="top-row px-4">
+                <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            </div>
+
+            <div class="content px-4">
+                <CascadingValue Value=@jsKey Name="KEY">
+                    @Body
+                </CascadingValue>
+            </div>
+
+        </div>
+    </div>
+</TelerikRootComponent>
+
+@code
+{
+ 
+  
+    public string jsKey { get; set; }
+    private static Func<string, Task> KeyDownAction;
+
+    private async Task LocalKeyDownAction(string value)
+    {
+        jsKey = value;    
+        await InvokeAsync(StateHasChanged); 
+
+    }
+
+    [JSInvokable("jsKeyHandler")]
+    public static async Task jsKeyHandler(object text)
+    {
+         await KeyDownAction(text.ToString());
+    
+    }
+   protected override void OnInitialized()
+    {
+        KeyDownAction = LocalKeyDownAction;
+  
+    }
+   
+   
+}
