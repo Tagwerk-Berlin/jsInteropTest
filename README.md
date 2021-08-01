@@ -1,6 +1,8 @@
 # jsInteropTest
 Blazor Interop
 
+*Pass all keystrokes to .NET*
+
 Blazor example for JS Interop.
 .Net call in javascript
 
